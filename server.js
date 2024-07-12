@@ -1,18 +1,22 @@
 // server.js
 // where your node app starts
 
-const express = require('express');
-const AppleAuth = require('apple-auth');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
+const express = require("express");
+const AppleAuth = require("apple-auth");
+const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get('/', (request, response) => {
+  response.send('HOW ARE YOU? OUT OF 10?');
+});
+
 // The callback route used for Android, which will send the callback parameters from Apple into the Android app.
 // This is done using a deeplink, which will cause the Chrome Custom Tab to be dismissed and providing the parameters from Apple back to the app.
-app.post('/callbacks/sign_in_with_apple', (request, response) => {
+app.post("/callbacks/sign_in_with_apple", (request, response) => {
   const redirect = `intent://callback?${new URLSearchParams(
     request.body
   ).toString()}#Intent;package=${
@@ -27,23 +31,23 @@ app.post('/callbacks/sign_in_with_apple', (request, response) => {
 // Endpoint for the app to login or register with the `code` obtained during Sign in with Apple
 //
 // Use this endpoint to exchange the code (which must be validated with Apple within 5 minutes) for a session in your system
-app.post('/sign_in_with_apple', async (request, response) => {
+app.post("/sign_in_with_apple", async (request, response) => {
   const auth = new AppleAuth(
     {
       // use the bundle ID as client ID for native apps, else use the service ID for web-auth flows
       // https://forums.developer.apple.com/thread/118135
       client_id:
-        request.query.useBundleId === 'true'
+        request.query.useBundleId === "true"
           ? process.env.BUNDLE_ID
           : process.env.SERVICE_ID,
       team_id: process.env.TEAM_ID,
       redirect_uri:
-        'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
+        "https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple",
       // redirect_uri: "https://siwa-flutter-plugin.dev/", // use the one which was used for the initial load
-      key_id: process.env.KEY_ID,
+      key_id: process.env.KEY_ID
     },
-    process.env.KEY_CONTENTS.replace(/\|/g, '\n'),
-    'text'
+    process.env.KEY_CONTENTS.replace(/\|/g, "\n"),
+    "text"
   );
 
   console.log(request.query);
@@ -70,5 +74,5 @@ app.post('/sign_in_with_apple', async (request, response) => {
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log("Your app is listening on port " + listener.address().port);
 });
