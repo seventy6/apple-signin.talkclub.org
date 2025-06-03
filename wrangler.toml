@@ -1,0 +1,11 @@
+name = "apple-signin-talkclub"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+main = "workers-site/index.js"
+
+[vars]
+# These will be replaced with actual Environment Variables in the Cloudflare Dashboard
+# or through wrangler secret commands
+
+[build]
+command = "npm install"
