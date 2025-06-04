@@ -38,7 +38,8 @@ const askForSecrets = () => {
     'TEAM_ID',
     'SERVICE_ID',
     'BUNDLE_ID',
-    'KEY_CONTENTS'
+    'KEY_CONTENTS',
+    'DOMAIN'
   ];
   
   const askForSecret = (secretName, callback) => {

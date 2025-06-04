@@ -60,14 +60,20 @@ export default {
       try {
         const params = parseQueryParams(request.url);
         
+        if (!env.DOMAIN) {
+          throw new Error('DOMAIN environment variable is not set');
+        }
+        const domain = env.DOMAIN;
+
+        
         const auth = new AppleAuth(
           {
             client_id: 
               params.useBundleId === "true"
-                ? env.BUNDLE_ID
-                : env.SERVICE_ID,
+          ? env.BUNDLE_ID
+          : env.SERVICE_ID,
             team_id: env.TEAM_ID,
-            redirect_uri: "https://apple-signin-talkclub-org.glitch.me/callbacks/sign_in_with_apple",
+            redirect_uri: `https://${domain}/callbacks/sign_in_with_apple`,
             key_id: env.KEY_ID
           },
           env.KEY_CONTENTS.replace(/\|/g, "\n"),
