@@ -1,4 +1,4 @@
-# Apple Sign-In Service for TalkClub (Cloudflare Workers)
+# Apple Sign-In Service for iOS (Cloudflare Workers)
 
 Backend service for [Sign in with Apple plugin for Flutter](https://pub.dev/packages/sign_in_with_apple), deployed as a Cloudflare Worker.
 
